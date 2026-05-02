@@ -10,6 +10,8 @@
 
 using namespace std;
 
+void DrawPreviewCaja(float x, float y, float w, float h, float angleDeg);
+
 //escala para convertir pixeles/metros
 //metros a píxeles : *SCALE
 //píxeles a metros : / SCALE
@@ -63,8 +65,24 @@ int main(void)
     //creo un vector de cajas para rellenar cuando spawneen
     vector<Caja> boxes;
 
+    //rotacion con flechas - 90 grados por segundo
+    float spawnAngle = 0.0f;
+
     while (!WindowShouldClose())
     {
+
+        if (IsKeyDown(KEY_RIGHT))
+        {
+            spawnAngle += 90.0f * GetFrameTime();
+        }
+
+        if (IsKeyDown(KEY_LEFT))
+        {
+            spawnAngle -= 90.0f * GetFrameTime();
+        }
+
+        DrawPreviewCaja(60.0f, 60.0f, 50.0f, 30.0f, spawnAngle);
+
         //creo cajas con la tecla espacio - aca solo se crea la logica de la fisica en el vector
         if (IsKeyPressed(KEY_SPACE))
         {
@@ -73,8 +91,9 @@ int main(void)
                 GetRandomValue(200, 800),   //genera las cajas en un lugar aleatorio en la parte superior de la pantalla
                 50.0f,
                 50.0f,
-                50.0f,
-                Fade(SKYBLUE, 0.95f)
+                30.0f,
+                Fade(SKYBLUE, 0.95f),
+                spawnAngle
             );
         }
 
@@ -94,8 +113,7 @@ int main(void)
             caja.Draw();
         }
 
-        DrawRectangle(90, 70, 820, 90, Fade(BLACK, 0.18f));
-        DrawText("Bienvenidos a Modelos y Algoritmos para Videojuegos II", 120, 90, 28, textoPrincipal);
+        DrawText("<-Preview - Spawnea cajas con ESPACIO - Giralas con las FLECHAS", 100, 30, 24, textoPrincipal);
 
 
         EndDrawing();
@@ -103,4 +121,20 @@ int main(void)
 
     CloseWindow();
     return 0;
+}
+
+//PREVIEW DE CAJA
+//muestro como se va a generar la siguiente caja
+void DrawPreviewCaja(float x, float y, float w, float h, float angleDeg)
+{
+    Rectangle rect = {
+        x - w / 2.0f,
+        y - h / 2.0f,
+        w,
+        h
+    };
+
+    Vector2 origin = { w / 2.0f, h / 2.0f };
+
+    DrawRectanglePro(rect, origin, angleDeg, Fade(SKYBLUE, 0.4f));
 }

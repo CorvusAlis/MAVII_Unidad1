@@ -1,12 +1,14 @@
 #include "Caja.h"
 
 //constructor
-Caja::Caja(b2World& world, float x, float y, float w, float h, Color c)
+Caja::Caja(b2World& world, float x, float y, float w, float h, Color c, float angleDeg)
     : width(w), height(h), color(c)
 {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.position.Set(x / SCALE, y / SCALE);
+
+    def.angle = angleDeg * DEG2RAD; //pasar angulos a radianes (usado por Box2D)
 
     b2PolygonShape shape;
     shape.SetAsBox((w / 2.0f) / SCALE, (h / 2.0f) / SCALE);

@@ -18,7 +18,7 @@ private:
     Color color;
 
 public:
-    Caja(b2World& world, float x, float y, float w, float h, Color c);
+    Caja(b2World& world, float x, float y, float w, float h, Color c, float angleDeg);
 
     void Draw();
 };
